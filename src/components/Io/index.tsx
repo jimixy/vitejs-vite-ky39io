@@ -9,12 +9,21 @@ type IProps = {
 
 type FileEventTarget = EventTarget & { files: FileList };
 
+export const coverToXml = (xml: string) => {
+  const xmlDecl = '<?xml version="1.0" encoding="UTF-8" ?>\n';
+  return `
+    ${xmlDecl}
+    <root>
+    ${xml}
+    </root>
+  `;
+};
+
 export default function BpmnIo(props: IProps) {
   const { lf } = props;
   console.log(32, lf);
   function downloadXml() {
     const data = lf.getGraphData() as string;
-    // download("logic-flow.xml", data);
     download("logicflow.xml", lfJson2Xml(data));
   }
   function uploadXml(ev: React.ChangeEvent<HTMLInputElement>) {
@@ -29,18 +38,23 @@ export default function BpmnIo(props: IProps) {
           ${xml}
           </root>
         `);
-        const data = Array.isArray(json.root.nodes)
-          ? json.root
-          : {
-              ...json.root,
-              nodes: [json.root.nodes],
-            };
-        console.log("1--upload", {
-          xml,
-          json,
-          data,
+        const nodes = Array.isArray(json.root.nodes)
+          ? json.root.nodes
+          : [json.root.nodes];
+        const edges = Array.isArray(json.root.edges)
+          ? json.root.edges
+          : [json.root.edges];
+        // console.log("1--upload", {
+        //   xml,
+        //   json,
+        //   nodes,
+        //   edges,
+        // });
+        lf.render({
+          ...json.root,
+          nodes,
+          edges,
         });
-        lf.render(data);
       }
     };
     reader.readAsText(file); // you could also read images and other binaries
