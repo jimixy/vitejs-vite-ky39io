@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import LogicFlow from "@logicflow/core";
-import { Snapshot, DndPanel, lfJson2Xml } from "@logicflow/extension";
+import {
+  Snapshot,
+  DndPanel,
+  lfJson2Xml,
+  BpmnElement,
+} from "@logicflow/extension";
 import "@logicflow/core/dist/style/index.css";
 import "@logicflow/extension/lib/style/index.css";
 import { download } from "../utils";
@@ -14,7 +19,7 @@ const Test3: React.FC<Props> = () => {
     const lf = new LogicFlow({
       container: document.querySelector("#graph")!,
       grid: true,
-      plugins: [DndPanel, Snapshot],
+      plugins: [DndPanel, BpmnElement, Snapshot],
     });
 
     lf.setPatternItems([
@@ -51,6 +56,7 @@ const Test3: React.FC<Props> = () => {
           x: 386,
           y: 59,
           properties: {},
+          // baseType: "node",
           text: "UserTask",
         },
       ],
@@ -68,7 +74,8 @@ const Test3: React.FC<Props> = () => {
     initEvent(lf);
   }, []);
 
-  const initEvent = (lf: any) => {
+  const initEvent = (lf: LogicFlow) => {
+    console.log("1--lf");
     document
       .querySelector("#js_download-img")
       ?.addEventListener("click", () => {

@@ -1,6 +1,7 @@
 import React from "react";
 import LogicFlow from "@logicflow/core";
 import { download } from "../../utils";
+import { lfJson2Xml, lfXml2Json } from "@logicflow/extension";
 
 type IProps = {
   lf: LogicFlow;
@@ -13,7 +14,8 @@ export default function BpmnIo(props: IProps) {
   console.log(32, lf);
   function downloadXml() {
     const data = lf.getGraphData() as string;
-    download("logic-flow.xml", data);
+    // download("logic-flow.xml", data);
+    download("logicflow.xml", lfJson2Xml(data));
   }
   function uploadXml(ev: React.ChangeEvent<HTMLInputElement>) {
     const file = (ev.target as FileEventTarget).files[0];
@@ -21,7 +23,24 @@ export default function BpmnIo(props: IProps) {
     reader.onload = (event: ProgressEvent<FileReader>) => {
       if (event.target) {
         const xml = event.target.result as string;
-        lf.render(xml);
+        // fix: xml必须有一个根元素
+        const json = lfXml2Json(`
+          <root>
+          ${xml}
+          </root>
+        `);
+        const data = Array.isArray(json.root.nodes)
+          ? json.root
+          : {
+              ...json.root,
+              nodes: [json.root.nodes],
+            };
+        console.log("1--upload", {
+          xml,
+          json,
+          data,
+        });
+        lf.render(data);
       }
     };
     reader.readAsText(file); // you could also read images and other binaries

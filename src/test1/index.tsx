@@ -23,9 +23,18 @@ const data = {
       type: "bpmn:userTask",
       x: 386,
       y: 59,
+      // properties: {},
+      baseType: "node",
+      text: { x: 386, y: 59, value: "UserTask" },
+    },
+    {
+      id: 14,
+      type: "bpmn:userTask2",
+      x: 500,
+      y: 100,
       properties: {},
-      // baseType: "node",
-      text: "UserTask",
+      baseType: "node",
+      text: "userTask2",
     },
   ],
   // edges: [
@@ -40,20 +49,14 @@ const data = {
 const Test1: React.FC<Props> = () => {
   const [lf, setLf] = useState<LogicFlow>();
   useEffect(() => {
-    LogicFlow.use(BpmnElement);
-    // LogicFlow.use(BpmnXmlAdapter);
-
     const lf = new LogicFlow({
       ...config,
       container: document.querySelector("#graph") as HTMLElement,
-      // plugins: [BpmnElement, BpmnXmlAdapter],/
+      plugins: [BpmnElement],
     });
-    // lf.register(UserTask);
-    // LogicFlow.use(BpmnXmlAdapter);
-
+    lf.register(UserTask);
     setLf(lf);
     lf.render(data);
-
     console.log("1--render");
   }, []);
 
