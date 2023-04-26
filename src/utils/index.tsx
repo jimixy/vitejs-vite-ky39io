@@ -14,4 +14,32 @@ export function download(filename: string, text: string) {
   document.body.removeChild(element);
 }
 
-// export const
+export const transformJson = (json: any) => {
+  const nodes = Array.isArray(json.root.nodes)
+    ? json.root.nodes
+    : [json.root.nodes];
+  const edges = Array.isArray(json.root.edges)
+    ? json.root.edges
+    : [json.root.edges];
+  return {
+    nodes: convertToNumber(nodes),
+    edges: convertToNumber(edges),
+  };
+};
+
+export const convertToNumber = (obj: any, keys = ["x", "y"]) => {
+  const newObj: any = Array.isArray(obj) ? [] : {};
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const value = obj[key];
+      if (typeof value === "string" && keys.includes(key)) {
+        newObj[key] = Number(value);
+      } else if (typeof value === "object" && value !== null) {
+        newObj[key] = convertToNumber(value, keys);
+      } else {
+        newObj[key] = value;
+      }
+    }
+  }
+  return newObj;
+};

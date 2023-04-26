@@ -29,7 +29,7 @@ class View extends RectNode {
   getShape() {
     const { x, y, properties, width, height } = this.props.model;
     const { fill, stroke, strokeWidth } = this.props.model.getNodeStyle();
-    console.log("22--Model", this.props.model, stroke);
+    // console.log("1--Model", this.props, this.props.model, properties, stroke);
     const attrs = {
       x: x - width / 2,
       y: y - height / 2,

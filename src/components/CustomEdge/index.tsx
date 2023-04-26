@@ -46,12 +46,12 @@ class CustomEdgeView extends LineEdge {
       height: customHeight,
     };
 
-    setTimeout(() => {
-      console.log("00", document, document.querySelector);
-      console.log("container", document.querySelector("#" + id));
-      createPortal(<CustomLine />, document.querySelector("#" + id)!);
-      // container.render(<CustomLine />);
-    }, 3000);
+    // setTimeout(() => {
+    //   // console.log("00", document, document.querySelector);
+    //   // console.log("container", document.querySelector("#" + id));
+    //   createPortal(<CustomLine />, document.querySelector("#" + id)!);
+    //   // container.render(<CustomLine />);
+    // }, 3000);
 
     return h("g", {}, [
       h("line", { ...lineData, ...edgeStyle, ...arrowConfig }),

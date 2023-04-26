@@ -1,7 +1,7 @@
 import React from "react";
 import LogicFlow from "@logicflow/core";
-import { download } from "../../utils";
-import { lfJson2Xml, lfXml2Json } from "@logicflow/extension";
+import { download, transformJson } from "../../utils";
+import { coverInXml, coverOutXml } from "../../utils/xmlWrap";
 
 type IProps = {
   lf: LogicFlow;
@@ -9,22 +9,13 @@ type IProps = {
 
 type FileEventTarget = EventTarget & { files: FileList };
 
-export const coverToXml = (xml: string) => {
-  const xmlDecl = '<?xml version="1.0" encoding="UTF-8" ?>\n';
-  return `
-    ${xmlDecl}
-    <root>
-    ${xml}
-    </root>
-  `;
-};
-
 export default function BpmnIo(props: IProps) {
   const { lf } = props;
-  console.log(32, lf);
+  // console.log(32, lf);
   function downloadXml() {
     const data = lf.getGraphData() as string;
-    download("logicflow.xml", lfJson2Xml(data));
+    console.log(3243, data);
+    download("logicflow.xml", coverInXml(data));
   }
   function uploadXml(ev: React.ChangeEvent<HTMLInputElement>) {
     const file = (ev.target as FileEventTarget).files[0];
@@ -32,32 +23,17 @@ export default function BpmnIo(props: IProps) {
     reader.onload = (event: ProgressEvent<FileReader>) => {
       if (event.target) {
         const xml = event.target.result as string;
-        // fix: xml必须有一个根元素
-        const json = lfXml2Json(`
-          <root>
-          ${xml}
-          </root>
-        `);
-        const nodes = Array.isArray(json.root.nodes)
-          ? json.root.nodes
-          : [json.root.nodes];
-        const edges = Array.isArray(json.root.edges)
-          ? json.root.edges
-          : [json.root.edges];
-        // console.log("1--upload", {
-        //   xml,
-        //   json,
-        //   nodes,
-        //   edges,
-        // });
-        lf.render({
-          ...json.root,
-          nodes,
-          edges,
+        const json = coverOutXml(xml);
+        const newJson = transformJson(json);
+        console.log("1--upload", {
+          xml,
+          json,
+          newJson,
         });
+        lf.render(newJson);
       }
     };
-    reader.readAsText(file); // you could also read images and other binaries
+    reader.readAsText(file);
   }
 
   function downloadImage() {
