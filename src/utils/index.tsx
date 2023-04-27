@@ -15,16 +15,25 @@ export function download(filename: string, text: string) {
 }
 
 export const transformJson = (json: any) => {
-  const nodes = Array.isArray(json.root.nodes)
-    ? json.root.nodes
-    : [json.root.nodes];
-  const edges = Array.isArray(json.root.edges)
-    ? json.root.edges
-    : [json.root.edges];
-  return {
-    nodes: convertToNumber(nodes),
-    edges: convertToNumber(edges),
-  };
+  if(!json || typeof json !== 'object') {
+    return {};
+  }
+  Object.entries(json).map(([key, value]) => {
+    if(key === 'nodes') {
+      const nodes = Array.isArray(json.nodes)
+      ? json.nodes
+      : [json.nodes];
+      json[key] = convertToNumber(nodes);
+    } else if(key === 'edges') {
+      const edges = Array.isArray(json.edges)
+      ? json.edges
+      : [json.edges];
+      json[key] = convertToNumber(edges);
+    }else {
+      json[key] = value
+    }
+  })
+  return json
 };
 
 export const convertToNumber = (obj: any, keys = ["x", "y"]) => {
