@@ -13,7 +13,7 @@ import {
 } from "@logicflow/extension";
 import CustomEdge from "../components/CustomEdge/index.tsx";
 import CustomHtml from "../components/CustomHtml/index.tsx";
-import BpmnPattern from "./pattern.tsx";
+import BpmnPattern from "../components/Pattern/index.tsx";
 
 interface Props {}
 
@@ -103,7 +103,8 @@ const data = {
 };
 
 const Test1: React.FC<Props> = () => {
-  const [lf, setLf] = useState<LogicFlow>();
+  const [lf, setLf] = useState<LogicFlow>({} as LogicFlow);
+  
   useEffect(() => {
     const lf = new LogicFlow({
       ...config,

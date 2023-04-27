@@ -25,13 +25,13 @@ export default function BpmnIo(props: IProps) {
       if (event.target) {
         const xml = event.target.result as string;
         const json = coverOutXml(xml);
-        const newJson = transformJson(json);
-        console.log("1--upload", {
-          xml,
-          json,
-          newJson,
-        });
-        lf.render(newJson);
+        // const newJson = transformJson(json);
+        // console.log("1--upload", {
+        //   xml,
+        //   json,
+        //   newJson,
+        // });
+        lf.render(json);
       }
     };
     reader.readAsText(file);

@@ -6,7 +6,7 @@ import NodePanel from "./components/NodePanel";
 import RegisteNode from "./components/registerNode";
 import { themeApprove, data } from "./config";
 import "./index.css";
-import { Snapshot } from "@logicflow/extension";
+import { BpmnAdapter, BpmnXmlAdapter, Snapshot } from "@logicflow/extension";
 import BpmnIo from "../components/Io";
 
 const config = {
@@ -32,7 +32,7 @@ export default function ApproveExample() {
     const lf = new LogicFlow({
       ...config,
       container: document.querySelector("#graph") as HTMLElement,
-      plugins: [Snapshot],
+      plugins: [ Snapshot],
     });
     setLf(lf);
     RegisteNode(lf);

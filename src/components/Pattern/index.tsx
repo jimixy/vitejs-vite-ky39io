@@ -1,6 +1,6 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import LogicFlow from "@logicflow/core";
-
+import './index.css'
 type IProps = {
   lf: LogicFlow;
 };
@@ -16,6 +16,11 @@ export default function BpmnPattern(props: IProps): ReactElement {
   function addUserTask() {
     lf.dnd.startDrag({
       type: "bpmn:userTask",
+    });
+  }
+  function addUserTask2() {
+    lf.dnd.startDrag({
+      type: "bpmn:userTask2",
     });
   }
   function addServiceTask() {
@@ -39,12 +44,15 @@ export default function BpmnPattern(props: IProps): ReactElement {
       stopMoveGraph: true,
     });
   }
-  lf &&
-    lf.on("selection:selected", () => {
+  
+  useEffect(() => {
+    lf?.on?.("selection:selected", () => {
       lf.updateEditConfig({
         stopMoveGraph: false,
       });
     });
+  }, [])
+
   return (
     <div className="pattern">
       <div className="pattern-selection" onMouseDown={() => openSelection()} />
@@ -59,6 +67,8 @@ export default function BpmnPattern(props: IProps): ReactElement {
       <div>条件判断</div>
       <div className="pattern-end" onMouseDown={() => addEndNode()}></div>
       <div>结束</div>
+      <div className="pattern-user" onMouseDown={() => addUserTask2()}></div>
+      <div>用户任务2</div>
     </div>
   );
 }
