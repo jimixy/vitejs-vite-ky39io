@@ -11,11 +11,10 @@ import {
   BpmnAdapter,
   // BpmnXmlAdapter,
 } from "@logicflow/extension";
-import "@logicflow/core/dist/style/index.css";
 import CustomEdge from "../components/CustomEdge/index.tsx";
 import CustomHtml from "../components/CustomHtml/index.tsx";
 import BpmnPattern from "./pattern.tsx";
-import "@logicflow/extension/lib/style/index.css";
+
 interface Props {}
 
 const config = {

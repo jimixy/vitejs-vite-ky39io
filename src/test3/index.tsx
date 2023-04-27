@@ -6,8 +6,6 @@ import {
   lfJson2Xml,
   BpmnElement,
 } from "@logicflow/extension";
-import "@logicflow/core/dist/style/index.css";
-import "@logicflow/extension/lib/style/index.css";
 import { download } from "../utils";
 
 interface Props {}

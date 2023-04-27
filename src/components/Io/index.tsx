@@ -2,6 +2,7 @@ import React from "react";
 import LogicFlow from "@logicflow/core";
 import { download, transformJson } from "../../utils";
 import { coverInXml, coverOutXml } from "../../utils/xmlWrap";
+import "./index.css";
 
 type IProps = {
   lf: LogicFlow;

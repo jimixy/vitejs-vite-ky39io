@@ -23,15 +23,11 @@ let lf: LogicFlow;
 
 export default function AdapterExample() {
   useEffect(() => {
-    // 注册插件
-    LogicFlow.use(BpmnAdapter);
-    LogicFlow.use(Control);
-    LogicFlow.use(DndPanel);
-
     lf = new LogicFlow({
       container: document.querySelector("#graph") as HTMLElement,
       stopScrollGraph: true,
       stopZoomGraph: true,
+      plugins: [BpmnAdapter, Control, DndPanel],
     });
     lf.extension.dndPanel.setPatternItems(dndItem);
     lf.render();
