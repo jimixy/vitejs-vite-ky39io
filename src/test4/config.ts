@@ -1,6 +1,6 @@
 export const approveNodes = [
   {
-    type: 'apply',
+    type: 'bpmn:apply',
     label: '申请',
     style: {
       width: '30px',
@@ -13,11 +13,10 @@ export const approveNodes = [
       time: '',
       startTime: '',
       endTime: '',
-
     }
   },
   {
-    type: 'approver',
+    type: 'bpmn:approver',
     label: '审批',
     style: {
       width: '50px',
@@ -27,7 +26,7 @@ export const approveNodes = [
     }
   },
   {
-    type: 'jugement',
+    type: 'bpmn:jugement',
     label: '判断',
     style: {
       width: '30px',
@@ -37,7 +36,7 @@ export const approveNodes = [
     }
   },
   {
-    type: 'finsh',
+    type: 'bpmn:finsh',
     label: '结束',
     style: {
       width: '30px',
@@ -234,3 +233,6 @@ export const data = {
   ]
 }
 
+export const xml = `
+
+`

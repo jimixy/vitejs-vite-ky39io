@@ -37,6 +37,7 @@ export default function PropertyPanel(
     return Api;
   };
   const onFormLayoutChange = (value: any, all: any) => {
+    console.log('1--onFormLayoutChange', approveUser, value)
     approveUser.forEach((item) => {
       if (item.value === value.approveType) {
         value["approveTypeLabel"] = item.label;
@@ -59,8 +60,8 @@ export default function PropertyPanel(
         <span className="form-property">
           文案：<span>{nodeData.text?.value}</span>
         </span>
-        {nodeData.type === "approver" ? getApproveList() : ""}
-        {nodeData.type === "jugement" ? getApiUrl() : ""}
+        {nodeData.type === "bpmn:approver" ? getApproveList() : ""}
+        {nodeData.type === "bpmn:jugement" ? getApiUrl() : ""}
       </Form>
       <div>
         <h3>......</h3>

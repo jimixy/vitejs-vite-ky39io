@@ -4,10 +4,13 @@ import LogicFlow from "@logicflow/core";
 import PropertyPanel from "./components/property";
 import NodePanel from "./components/NodePanel";
 import RegisteNode from "./components/registerNode";
-import { themeApprove, data } from "./config";
+import { themeApprove, data, xml } from "./config";
 import "./index.css";
-import { BpmnAdapter, BpmnXmlAdapter, Snapshot } from "@logicflow/extension";
+import {  BpmnElement, BpmnXmlAdapter, Snapshot } from "@logicflow/extension";
 import BpmnIo from "../components/Io";
+import { BpmnXmlAdapter2 } from "../components/BpmnAdapter2";
+import { BpmnElement2 } from "../components/Bpmn2";
+
 
 const config = {
   stopScrollGraph: true,
@@ -32,11 +35,11 @@ export default function ApproveExample() {
     const lf = new LogicFlow({
       ...config,
       container: document.querySelector("#graph") as HTMLElement,
-      plugins: [ Snapshot],
+      plugins: [ BpmnElement2,  BpmnXmlAdapter2, Snapshot],
     });
     setLf(lf);
     RegisteNode(lf);
-    lf.render(data);
+    lf.render(xml);
     initEvent(lf);
   }, []);
   const initEvent = (lf: LogicFlow) => {

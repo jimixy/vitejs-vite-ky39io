@@ -31,7 +31,7 @@ export default function RegisteNode(lf: LogicFlow) {
     }
   }
   lf.register({
-    type: "apply",
+    type: "bpmn:apply",
     view: CircleNode,
     model: ApplyNodeModel,
   });
@@ -83,7 +83,7 @@ export default function RegisteNode(lf: LogicFlow) {
   }
 
   lf.register({
-    type: "approver",
+    type: "bpmn:approver",
     view: ApproverNode,
     model: ApproverModel,
   });
@@ -103,7 +103,7 @@ export default function RegisteNode(lf: LogicFlow) {
     }
   }
   lf.register({
-    type: "jugement",
+    type: "bpmn:jugement",
     view: PolygonNode,
     model: JugementModel,
   });
@@ -127,7 +127,7 @@ export default function RegisteNode(lf: LogicFlow) {
     }
   }
   lf.register({
-    type: "finsh",
+    type: "bpmn:finsh",
     view: CircleNode,
     model: FinshNodeModel,
   });
