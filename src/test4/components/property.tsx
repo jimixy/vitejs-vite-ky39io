@@ -65,7 +65,7 @@ export default function PropertyPanel(
       </Form>
       <div>
         <h3>......</h3>
-        <h3>业务属性可根据需要进行自定义扩展</h3>
+        {/* <h3>业务属性可根据需要进行自定义扩展</h3> */}
       </div>
       <div className="property-panel-footer">
         <Button

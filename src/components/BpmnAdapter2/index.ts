@@ -199,6 +199,7 @@ function convertLf2ProcessData(bpmnProcessData, data) {
  * adapterOut 设置bpmn diagram信息
  */
 function convertLf2DiagramData(bpmnDiagramData, data) {
+  console.log('1--convertLf2DiagramData', bpmnDiagramData, data)
   bpmnDiagramData['bpmndi:BPMNEdge'] = data.edges.map((edge) => {
     const edgeId = edge.id;
     const pointsList = edge.pointsList.map(({ x, y }) => ({

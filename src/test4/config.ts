@@ -1,3 +1,29 @@
+
+
+
+import { BpmnAdapter } from "../components/BpmnAdapter2";
+
+
+BpmnAdapter.shapeConfigMap.set('bpmn:apply', {
+  width: 100,
+  height: 100,
+})
+
+BpmnAdapter.shapeConfigMap.set('bpmn:approver', {
+  width: 100,
+  height: 80,
+})
+
+BpmnAdapter.shapeConfigMap.set('bpmn:jugement', {
+  width: 76,
+  height: 76,
+})
+
+BpmnAdapter.shapeConfigMap.set('bpmn:finish', {
+  width: 100,
+  height: 100,
+})
+
 export const approveNodes = [
   {
     type: 'bpmn:apply',
@@ -8,12 +34,6 @@ export const approveNodes = [
       borderRadius: '15px',
       border: '2px solid #FF6347',
     },
-    property: {
-      username: '',
-      time: '',
-      startTime: '',
-      endTime: '',
-    }
   },
   {
     type: 'bpmn:approver',
@@ -36,7 +56,7 @@ export const approveNodes = [
     }
   },
   {
-    type: 'bpmn:finsh',
+    type: 'bpmn:finish',
     label: '结束',
     style: {
       width: '30px',
@@ -233,6 +253,4 @@ export const data = {
   ]
 }
 
-export const xml = `
-
-`
+export const xml = ``

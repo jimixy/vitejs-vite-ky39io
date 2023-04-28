@@ -108,7 +108,7 @@ export default function RegisteNode(lf: LogicFlow) {
     model: JugementModel,
   });
 
-  class FinshNodeModel extends CircleNodeModel {
+  class FinishNodeModel extends CircleNodeModel {
     getConnectedSourceRules(): ConnectRule[] {
       const rules = super.getConnectedSourceRules();
       const geteWayOnlyAsTarget = {
@@ -127,8 +127,8 @@ export default function RegisteNode(lf: LogicFlow) {
     }
   }
   lf.register({
-    type: "bpmn:finsh",
+    type: "bpmn:finish",
     view: CircleNode,
-    model: FinshNodeModel,
+    model: FinishNodeModel,
   });
 }

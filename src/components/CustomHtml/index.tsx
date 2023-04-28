@@ -21,10 +21,11 @@ const CustomContent = () => {
     </div>
   );
 };
+
 class CustomHtmlNode extends HtmlNode {
   setHtml(rootEl: any) {
     rootEl.innerHTML = "";
-    const el = document.createElement("input");
+    // const el = document.createElement("input");
     // rootEl.appendChild(el);
     // const node = ReactDom.createPortal(<CustomContent />, rootEl);
     // rootEl.appendChild(node);

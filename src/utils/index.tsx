@@ -36,7 +36,7 @@ export const transformJson = (json: any) => {
   return json
 };
 
-export const convertToNumber = (obj: any, keys = ["x", "y"]) => {
+export const convertToNumber = (obj: any, keys = ['-x', '-y', "x", "y"]) => {
   const newObj: any = Array.isArray(obj) ? [] : {};
   for (const key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {

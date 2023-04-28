@@ -39,7 +39,8 @@ export default function ApproveExample() {
     });
     setLf(lf);
     RegisteNode(lf);
-    lf.render(xml);
+    lf.render();
+    // lf.render(xml);
     initEvent(lf);
   }, []);
   const initEvent = (lf: LogicFlow) => {
