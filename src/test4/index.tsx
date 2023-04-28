@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { message } from "antd";
+import {  message } from "antd";
 import LogicFlow from "@logicflow/core";
 import PropertyPanel from "./components/property";
 import NodePanel from "./components/NodePanel";
 import RegisteNode from "./components/registerNode";
 import { themeApprove, data, xml } from "./config";
 import "./index.css";
-import {  BpmnElement, BpmnXmlAdapter, Snapshot } from "@logicflow/extension";
+import {  BpmnElement, BpmnXmlAdapter, Menu, Snapshot } from "@logicflow/extension";
 import BpmnIo from "../components/Io";
 import { BpmnXmlAdapter2 } from "../components/BpmnAdapter2";
 import { BpmnElement2 } from "../components/Bpmn2";
@@ -35,10 +35,51 @@ export default function ApproveExample() {
     const lf = new LogicFlow({
       ...config,
       container: document.querySelector("#graph") as HTMLElement,
-      plugins: [ BpmnElement2,  BpmnXmlAdapter2, Snapshot],
+      plugins: [ Menu, BpmnElement2,  BpmnXmlAdapter2, Snapshot],
     });
     setLf(lf);
     RegisteNode(lf);
+    lf.extension.menu.addMenuConfig({
+      nodeMenu: [
+        {
+          text: '分享',
+          callback() {
+            alert('分享成功！');
+          }
+        },
+        {
+          text: '属性',
+          callback(node: any) {
+            alert(`
+              节点id：${node.id}
+              节点类型：${node.type}
+              节点坐标：(x: ${node.x}, y: ${node.y})`
+            );
+          },
+        }
+      ],
+      edgeMenu: [
+        {
+          text: '属性',
+          callback(edge: any) {
+            alert(`
+              边id：${edge.id}
+              边类型：${edge.type}
+              源节点id：${edge.sourceNodeId}
+              目标节点id：${edge.targetNodeId}`
+            );
+          },
+        }
+      ],
+      graphMenu: [
+        {
+          text: '分享',
+          callback() {
+            alert('分享成功！');
+          }
+        }
+      ]
+    });
     lf.render();
     // lf.render(xml);
     initEvent(lf);
