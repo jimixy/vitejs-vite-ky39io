@@ -1,5 +1,6 @@
 import { BpmnAdapter } from '../components/BpmnAdapter2';
-
+import gateWayXor from '../assets/gateway-xor.svg';
+import gateWayParallel from '../assets/gateway-parallel.svg';
 // import { BpmnAdapter } from "@logicflow/extension";
 
 BpmnAdapter.shapeConfigMap.set('bpmn:apply', {
@@ -22,6 +23,16 @@ BpmnAdapter.shapeConfigMap.set('bpmn:finish', {
 	height: 100,
 });
 
+BpmnAdapter.shapeConfigMap.set('bpmn:xorGateway', {
+	width: 50,
+	height: 50,
+});
+
+BpmnAdapter.shapeConfigMap.set('bpmn:parallelGateway', {
+	width: 50,
+	height: 50,
+});
+
 export const approveNodes = [
 	{
 		type: 'bpmn:startEvent',
@@ -30,37 +41,56 @@ export const approveNodes = [
 			width: '30px',
 			height: '30px',
 			borderRadius: '15px',
-			border: '2px solid #FF6347',
+			background: '#8BA987',
 		},
 	},
+	// {
+	// 	type: 'bpmn:sequenceFlow',
+	// 	label: '边',
+	// 	style: {
+	// 		width: '30px',
+	// 		height: '30px',
+	// 		borderRadius: '15px',
+	// 		background: '#8BA987',
+	// 	},
+	// },
 	{
-		type: 'bpmn:approver',
-		label: '审批',
+		type: 'bpmn:userTask',
+		label: '用户任务',
 		style: {
 			width: '50px',
 			height: '40px',
 			borderRadius: '4px',
-			border: '2px solid #3CB371',
+			background: '#5B8FC9',
 		},
 	},
 	{
-		type: 'bpmn:jugement',
-		label: '判断',
+		type: 'bpmn:xorGateway',
+		label: '互斥网关',
 		style: {
-			width: '30px',
-			height: '30px',
-			border: '2px solid #6495ED',
-			transform: 'rotate(45deg)',
+			width: '42px',
+			height: '42px',
+			backgroundImage: `url(${gateWayXor})`,
 		},
 	},
 	{
-		type: 'bpmn:finish',
+		type: 'bpmn:parallelGateway',
+		label: '并行网关',
+		style: {
+			width: '42px',
+			height: '42px',
+			backgroundImage: `url(${gateWayParallel})`,
+		},
+	},
+	{
+		type: 'bpmn:endEvent',
 		label: '结束',
 		style: {
 			width: '30px',
 			height: '30px',
 			borderRadius: '15px',
-			border: '2px solid #FF6347',
+			border: '2px solid #000',
+			background: '#E98885',
 		},
 	},
 ];

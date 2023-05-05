@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { message } from 'antd';
-import LogicFlow from '@logicflow/core';
+import LogicFlow, { Definition } from '@logicflow/core';
 import PropertyPanel from './components/property';
 import NodePanel from './components/NodePanel';
 import RegisteNode from './components/registerNode';
 import { themeApprove, data, xml } from './config';
+
 import './index.css';
 import {
 	// BpmnElement,
@@ -16,8 +17,9 @@ import BpmnIo from '../components/Io';
 import { BpmnXmlAdapter } from '../components/BpmnAdapter2';
 import { BpmnElement } from '../components/Bpmn2';
 import UserTask from '../components/UserTask';
+import Pattern from '../components/Pattern';
 
-const config = {
+const config: Partial<Definition> = {
 	stopScrollGraph: true,
 	stopZoomGraph: true,
 	grid: {
@@ -30,6 +32,7 @@ const config = {
 	},
 	keyboard: { enabled: true },
 	style: themeApprove,
+	animation: true,
 };
 
 export default function ApproveExample() {
@@ -102,6 +105,7 @@ export default function ApproveExample() {
 	return (
 		<div className='approve-example-container'>
 			<div className='node-panel'>{NodePanel(lf)}</div>
+			{/* <Pattern lf={lf} /> */}
 			<div id='graph' className='viewport' />
 			{nodeData ? (
 				<div className='property-panel'>
