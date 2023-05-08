@@ -32,7 +32,7 @@ class BpmnElement {
 		lf.register(XorGateway);
 		lf.register(UserTask);
 		lf.register(ServiceTask);
-		console.log('333', lf.options, lf.options.customBpmnEdge);
+		// console.log('333', lf.options, lf.options.customBpmnEdge);
 		// 支持自定义bpmn元素的边
 		if (!lf.options.customBpmnEdge) {
 			lf.register(SequenceFlow);
