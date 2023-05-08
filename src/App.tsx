@@ -45,9 +45,8 @@ export default function App() {
       getItem("Test3", "/test3"),
       getItem("Test4", "/test4"),
     ]),
-    getItem("自定义属性", "/customProps", null, [
-      getItem("自定义属性", "/customProps/props"),
-      getItem("自定义属性导出", "/customProps/export"),
+    getItem("Demo", "/demo", null, [
+      getItem("demo1", "/demo1"),
     ]),
   ];
   return (
