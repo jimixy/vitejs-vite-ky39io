@@ -44,7 +44,7 @@ export const roleOptions = [
 export const modeOptions = [
   { label: "编辑", value: "edit" },
   { label: "预览", value: "preview" },
-  { label: "执行", value: "running" },
+  // { label: "执行", value: "running" },
 ];
 /**
  * 节点状态

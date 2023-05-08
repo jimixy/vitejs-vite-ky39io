@@ -6,7 +6,7 @@ import Test1 from "./test1";
 import Test2 from "./test2";
 import Test3 from "./test3";
 import Test4 from "./test4";
-import CustomPropsExport1 from "./customPropsExport/customProps/index.tsx";
+import CustomPropsExport1 from "./demo/index.tsx";
 import type { RouteObject } from "react-router";
 const routes: RouteObject[] = [
   {
@@ -30,7 +30,7 @@ const routes: RouteObject[] = [
         element: <Test4 />,
       },
       {
-        path: "/customProps/props",
+        path: "/demo1",
         element: <CustomPropsExport1 />,
       },
     ],
