@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import BpmnIo from "../../components/Io/index.tsx";
 import LogicFlow from "@logicflow/core";
 import { NodeConfig } from "@logicflow/core";
-import { BpmnElement, Control, DndPanel, Menu } from "@logicflow/extension";
+import { Control, DndPanel, Menu } from "@logicflow/extension";
+import { BpmnElement } from "../../components/Bpmn2";
 import CustomTask from "./customTask";
 import Palette from "./components/PalettePanel";
 import PropertiesPanel from "./components/PropertiesPanel";
@@ -13,7 +14,9 @@ const data = {};
  * 方法一: 使用node扩展props
  * 方法二: 导出时做自定义转换
  */
-const CustomProps = () => {
+const CustomProps: React.FC<{ readonly?: boolean }> = ({
+  readonly = false,
+}) => {
   const containerRef = useRef(null);
   const [lf, setLf] = useState<LogicFlow>({} as LogicFlow);
   const [nodeData, setNodeData] = useState<NodeConfig>();
@@ -44,6 +47,9 @@ const CustomProps = () => {
       console.log(">>>blank:click", e);
       setNodeData(e.data);
       setOpen(false);
+    });
+    lf.on("connection:not-allowed", (e) => {
+      console.error(">>>connection:not-allowed:", e);
     });
     setLf(lf);
     lf.register(CustomTask);
