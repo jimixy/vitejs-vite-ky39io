@@ -41,7 +41,7 @@ export const approveNodes = [
 			width: '30px',
 			height: '30px',
 			borderRadius: '15px',
-			background: '#8BA987',
+			background: '#ACCFFF',
 		},
 	},
 	// {
@@ -61,7 +61,7 @@ export const approveNodes = [
 			width: '50px',
 			height: '40px',
 			borderRadius: '4px',
-			background: '#5B8FC9',
+			background: '#B0BFFE',
 		},
 	},
 	{
