@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import BpmnIo from '@/components/Io/index.tsx';
 import LogicFlow from '@logicflow/core';
 import { NodeConfig } from '@logicflow/core';
-import { Control, DndPanel, Menu } from '@logicflow/extension';
+import { Control, DndPanel, Menu, Snapshot } from '@logicflow/extension';
 import { BpmnElement } from '@/components/Bpmn2';
 import Palette from '../PalettePanel';
 import PropertiesPanel from '../PropertiesPanel';
@@ -27,7 +27,14 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 				edgeTextDraggable: true,
 				// 节点悬浮取消虚线框，导致聚焦的节点显示不够明显清晰
 				hoverOutline: false,
-				plugins: [BpmnElement, BpmnXmlAdapter, DndPanel, Menu, Control],
+				plugins: [
+					BpmnElement,
+					BpmnXmlAdapter,
+					DndPanel,
+					Menu,
+					Snapshot,
+					Control,
+				],
 				isSilentMode: !!readonly,
 			});
 			// 节点点击
