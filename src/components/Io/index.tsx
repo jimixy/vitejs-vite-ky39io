@@ -15,7 +15,7 @@ export default function BpmnIo(props: IProps) {
 	// console.log(32, lf);
 	function downloadXml() {
 		const data = lf.getGraphData() as string;
-		console.log(3243, data);
+		// console.log(3243, data);
 		download('logicflow.xml', coverInXml(data));
 	}
 	function uploadXml(ev: React.ChangeEvent<HTMLInputElement>) {
@@ -31,7 +31,7 @@ export default function BpmnIo(props: IProps) {
 				//   json,
 				//   newJson,
 				// });
-				console.log('1--onload', str);
+				// console.log('1--onload', str);
 				lf.render(str);
 			}
 		};

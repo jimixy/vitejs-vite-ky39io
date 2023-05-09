@@ -552,12 +552,12 @@ class BpmnXmlAdapter extends BpmnAdapter {
 		lf.adapterOut = this.adapterXmlOut;
 	}
 	adapterXmlIn = (bpmnData) => {
-		console.log('1--adapterXmlIn', bpmnData);
+		// console.log('1--adapterXmlIn', bpmnData);
 		const json = lfXml2Json(bpmnData);
 		return this.adapterIn(json);
 	};
 	adapterXmlOut = (data) => {
-		console.log('1--adapterXmlOut', data);
+		// console.log('1--adapterXmlOut', data);
 		const outData = this.adapterOut(data);
 		return lfJson2Xml(outData);
 	};

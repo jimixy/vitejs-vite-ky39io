@@ -10,7 +10,6 @@ class ParallelGatewayModel extends PolygonNodeModel {
 		if (!data.text) {
 			data.text = '';
 		}
-		console.log(235234);
 		if (data.text && typeof data.text === 'string') {
 			data.text = {
 				value: data.text,

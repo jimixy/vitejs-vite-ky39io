@@ -54,6 +54,7 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 			});
 			setLf(initLf);
 			initLf.render(initXml);
+			// initLf.render();
 		} else {
 			lf.updateEditConfig({
 				isSilentMode: !!readonly,
