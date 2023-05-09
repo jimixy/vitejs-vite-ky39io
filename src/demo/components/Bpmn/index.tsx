@@ -1,13 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
-import BpmnIo from '@/components/Io/index.tsx';
-import LogicFlow from '@logicflow/core';
-import { NodeConfig } from '@logicflow/core';
-import { Control, DndPanel, Menu, Snapshot } from '@logicflow/extension';
-import { BpmnElement } from '@/components/Bpmn2';
-import Palette from '../PalettePanel';
-import PropertiesPanel from '../PropertiesPanel';
-import { BpmnXmlAdapter } from '@/components/BpmnAdapter2';
-import { initXml } from '@/demo/data';
+import { useEffect, useRef, useState } from "react";
+import BpmnIo from "@/components/Io/index.tsx";
+import LogicFlow from "@logicflow/core";
+import { NodeConfig } from "@logicflow/core";
+import {
+	Control,
+	DndPanel,
+	Menu,
+	SelectionSelect,
+	Snapshot,
+} from "@logicflow/extension";
+import { BpmnElement } from "@/components/Bpmn2";
+import Palette from "../PalettePanel";
+import PropertiesPanel from "../PropertiesPanel";
+import { BpmnXmlAdapter } from "@/components/BpmnAdapter2";
+import { initXml } from "@/demo/data";
+import { message } from "antd";
 const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 	const containerRef = useRef(null);
 	const [lf, setLf] = useState<LogicFlow | undefined>(undefined);
@@ -18,7 +25,6 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 		if (!lf) {
 			const initLf = new LogicFlow({
 				container: containerRef.current!,
-				grid: true,
 				// 禁用缩放
 				stopZoomGraph: true,
 				// 禁用滚动
@@ -27,6 +33,18 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 				edgeTextDraggable: true,
 				// 节点悬浮取消虚线框，导致聚焦的节点显示不够明显清晰
 				hoverOutline: false,
+				nodeTextEdit: false,
+				keyboard: {
+					enabled: true,
+				},
+				grid: {
+					size: 10,
+					visible: true,
+					type: "mesh",
+					config: {
+						color: "#DCDCDC", // 设置网格的颜色
+					},
+				},
 				plugins: [
 					BpmnElement,
 					BpmnXmlAdapter,
@@ -34,23 +52,25 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 					Menu,
 					Snapshot,
 					Control,
+					SelectionSelect,
 				],
 				isSilentMode: !!readonly,
 			});
 			// 节点点击
-			initLf.on('element:click', (e) => {
-				console.log('>>>element:click', e);
+			initLf.on("element:click", (e) => {
+				console.log(">>>element:click", e);
 				setNodeData(e.data);
 				setOpen(true);
 			});
 			// 画布点击,点击后关闭属性面板
-			initLf.on('blank:click', (e) => {
-				console.log('>>>blank:click', e);
+			initLf.on("blank:click", (e) => {
+				console.log(">>>blank:click", e);
 				setNodeData(e.data);
 				setOpen(false);
 			});
-			initLf.on('connection:not-allowed', (e) => {
-				console.error('>>>connection:not-allowed:', e);
+			initLf.on("connection:not-allowed", (e) => {
+				console.error(">>>connection:not-allowed:", e);
+				e?.msg && message.error(e?.msg);
 			});
 			setLf(initLf);
 			initLf.render(initXml);
@@ -65,8 +85,8 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 		}
 	}, [readonly]);
 	return (
-		<div className='bpmn-container'>
-			<div ref={containerRef} className='bpmn'></div>
+		<div className="bpmn-container">
+			<div ref={containerRef} className="bpmn"></div>
 			{!readonly && (
 				<>
 					<Palette lf={lf} />

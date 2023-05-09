@@ -1,16 +1,16 @@
-import { h, PolygonNode, PolygonNodeModel } from '@logicflow/core';
-import { getBpmnId } from '../getBpmnId';
+import { h, PolygonNode, PolygonNodeModel } from "@logicflow/core";
+import { getBpmnId } from "../getBpmnId";
 
 class ExclusiveGatewayModel extends PolygonNodeModel {
-	static extendKey = 'ExclusiveGatewayModel';
+	static extendKey = "ExclusiveGatewayModel";
 	constructor(data, graphModel) {
 		if (!data.id) {
 			data.id = `Gateway_${getBpmnId()}`;
 		}
 		if (!data.text) {
-			data.text = '';
+			data.text = "";
 		}
-		if (data.text && typeof data.text === 'string') {
+		if (data.text && typeof data.text === "string") {
 			data.text = {
 				value: data.text,
 				x: data.x,
@@ -27,31 +27,31 @@ class ExclusiveGatewayModel extends PolygonNodeModel {
 	}
 	getNodeStyle() {
 		const style = super.getNodeStyle();
-		style.stroke = '#BFCF53';
+		style.stroke = "#BFCF53";
 		return style;
 	}
 }
 
 class ExclusiveGatewayView extends PolygonNode {
-	static extendKey = 'ExclusiveGatewayNode';
+	static extendKey = "ExclusiveGatewayNode";
 	getShape() {
 		const { model } = this.props;
 		const { x, y, width, height, points } = model;
 		const style = model.getNodeStyle();
 		console.log(2342, style, model);
 		return h(
-			'g',
+			"g",
 			{
 				transform: `matrix(1 0 0 1 ${x - width / 2} ${y - height / 2})`,
 			},
-			h('polygon', {
+			h("polygon", {
 				...style,
 				x,
 				y,
 				points,
 			}),
-			h('path', {
-				d: 'm 16,15 7.42857142857143,9.714285714285715 -7.42857142857143,9.714285714285715 3.428571428571429,0 5.714285714285715,-7.464228571428572 5.714285714285715,7.464228571428572 3.428571428571429,0 -7.42857142857143,-9.714285714285715 7.42857142857143,-9.714285714285715 -3.428571428571429,0 -5.714285714285715,7.464228571428572 -5.714285714285715,-7.464228571428572 -3.428571428571429,0 z',
+			h("path", {
+				d: "m 16,15 7.42857142857143,9.714285714285715 -7.42857142857143,9.714285714285715 3.428571428571429,0 5.714285714285715,-7.464228571428572 5.714285714285715,7.464228571428572 3.428571428571429,0 -7.42857142857143,-9.714285714285715 7.42857142857143,-9.714285714285715 -3.428571428571429,0 -5.714285714285715,7.464228571428572 -5.714285714285715,-7.464228571428572 -3.428571428571429,0 z",
 				...style,
 			})
 		);
@@ -59,7 +59,7 @@ class ExclusiveGatewayView extends PolygonNode {
 }
 
 const ExclusiveGateway = {
-	type: 'bpmn:exclusiveGateway',
+	type: "bpmn:exclusiveGateway",
 	view: ExclusiveGatewayView,
 	model: ExclusiveGatewayModel,
 };
