@@ -58,6 +58,10 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 					SelectionSelect,
 				],
 				isSilentMode: !!readonly,
+				// 禁用节点文本编辑，仅能通过右侧属性面板变更
+				nodeTextEdit: false,
+				// 禁用线条文本编辑，仅能通过右侧属性面板变更
+				edgeTextEdit:false
 			});
 			// 节点点击
 			initLf.on("element:click", (e) => {
