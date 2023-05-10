@@ -14,7 +14,10 @@ import Palette from "../PalettePanel";
 import PropertiesPanel from "../PropertiesPanel";
 import { BpmnXmlAdapter } from "@/components/BpmnAdapter2";
 import { initXml } from "@/demo/data";
-import { message } from "antd";
+import { Button, message } from "antd";
+import { handleError, verifyRules } from "@/utils";
+import "./index.less";
+
 const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 	const containerRef = useRef(null);
 	const [lf, setLf] = useState<LogicFlow | undefined>(undefined);
@@ -58,7 +61,7 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 			});
 			// 节点点击
 			initLf.on("element:click", (e) => {
-				console.log(">>>element:click", e);
+				console.log(">>>element:click", e, initLf);
 				setNodeData(e.data);
 				setOpen(true);
 			});
@@ -84,6 +87,15 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 			});
 		}
 	}, [readonly]);
+
+	const handleVerify = () => {
+		const errorItem = verifyRules(lf!);
+		if (errorItem) {
+			return;
+		}
+		message.success("校验通过");
+	};
+
 	return (
 		<div className="bpmn-container">
 			<div ref={containerRef} className="bpmn"></div>
@@ -96,7 +108,14 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 						data={nodeData}
 						onClose={() => setOpen(false)}
 					/>
-					<BpmnIo lf={lf as any} />
+					<BpmnIo lf={lf!} />
+					<Button
+						className="verify-rules"
+						type="primary"
+						onClick={handleVerify}
+					>
+						校验
+					</Button>
 				</>
 			)}
 		</div>

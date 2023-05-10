@@ -1,8 +1,8 @@
-import React from 'react';
-import LogicFlow from '@logicflow/core';
-import { download, transformJson } from '../../utils';
-import { coverInXml, coverOutXml } from '../../utils/xmlWrap';
-import './index.css';
+import React from "react";
+import LogicFlow, { EventType } from "@logicflow/core";
+import { download, transformJson } from "../../utils";
+import { coverInXml, coverOutXml } from "../../utils/xmlWrap";
+import "./index.css";
 
 type IProps = {
 	lf: LogicFlow;
@@ -16,7 +16,7 @@ export default function BpmnIo(props: IProps) {
 	function downloadXml() {
 		const data = lf.getGraphData() as string;
 		// console.log(3243, data);
-		download('logicflow.xml', coverInXml(data));
+		download("logicflow.xml", coverInXml(data));
 	}
 	function uploadXml(ev: React.ChangeEvent<HTMLInputElement>) {
 		const file = (ev.target as FileEventTarget).files[0];
@@ -44,22 +44,22 @@ export default function BpmnIo(props: IProps) {
 	}
 
 	return (
-		<div className='graph-io'>
-			<span title='下载 XML' onMouseDown={() => downloadXml()}>
+		<div className="graph-io">
+			<span title="下载 XML" onMouseDown={() => downloadXml()}>
 				下载XML
 			</span>
 			<span
-				id='download-img'
-				style={{ marginLeft: '10px', marginRight: '10px' }}
-				title='下载图片'
+				id="download-img"
+				style={{ marginLeft: "10px", marginRight: "10px" }}
+				title="下载图片"
 				onMouseDown={() => downloadImage()}
 			>
 				下载图片
 			</span>
-			<span id='upload-xml' title='上传XML'>
+			<span id="upload-xml" title="上传XML">
 				<input
-					type='file'
-					className='upload'
+					type="file"
+					className="upload"
 					onChange={(ev) => uploadXml(ev)}
 				/>
 				上传XML

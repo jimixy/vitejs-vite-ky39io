@@ -27,19 +27,15 @@ class UserTaskModel extends RectNodeModel {
 		return style;
 	}
 	setAttributes() {
-		// const { w, h } = this.properties;
-		// this.width = w;
-		// this.height = h;
-		// this.text.editable = false;
 		this.sourceRules.push({
 			message: "不能越级审核",
-			validate: (sourceNode, targetNode, sourceAnchor, targetAnchor) => {
-				console.log("1--sourceRules", {
-					sourceNode,
-					targetNode,
-					sourceAnchor,
-					targetAnchor,
-				});
+			validate: (sourceNode, targetNode) => {
+				// console.log("1--sourceRules", {
+				// 	sourceNode,
+				// 	targetNode,
+				// 	sourceAnchor,
+				// 	targetAnchor,
+				// });
 				if (
 					sourceNode?.properties?.role?.includes("cs") &&
 					targetNode?.properties?.role?.includes("admin")
@@ -49,12 +45,19 @@ class UserTaskModel extends RectNodeModel {
 				return true;
 			},
 		});
-		// this.targetRules.push({
-		// 	message: "只允许连接上方的锚点",
-		// 	validate: (sourceNode, targetNode, sourceAnchor, targetAnchor) => {
-		// 		return targetAnchor?.type === "top";
-		// 	},
-		// });
+		this.targetRules.push({
+			message: "审核流程有问题",
+			validate: (sourceNode, targetNode) => {
+				console.log("1--targetRules", sourceNode, targetNode);
+				if (
+					targetNode?.properties?.role?.includes("cs") &&
+					sourceNode?.properties?.role?.includes("admin")
+				) {
+					return false;
+				}
+				return true;
+			},
+		});
 	}
 }
 

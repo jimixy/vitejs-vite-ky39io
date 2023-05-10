@@ -1,8 +1,8 @@
-import { PolylineEdge, PolylineEdgeModel } from '@logicflow/core';
-import { getBpmnId } from '../getBpmnId';
+import { PolylineEdge, PolylineEdgeModel } from "@logicflow/core";
+import { getBpmnId } from "../getBpmnId";
 
 class SequenceFlowModel extends PolylineEdgeModel {
-	static extendKey = 'SequenceFlowModel';
+	static extendKey = "SequenceFlowModel";
 	constructor(data, graphModel) {
 		if (!data.id) {
 			data.id = `Flow_${getBpmnId()}`;
@@ -13,26 +13,27 @@ class SequenceFlowModel extends PolylineEdgeModel {
 		this.isAnimation = true;
 	}
 	getEdgeAnimationStyle() {
+		const { errorStroke } = this.properties;
 		const style = super.getEdgeAnimationStyle();
-		style.strokeDasharray = '5 5';
-		style.animationDuration = '60s';
-		style.stroke = '#000';
+		style.strokeDasharray = "5 5";
+		style.animationDuration = "60s";
+		style.stroke = errorStroke || "#000";
 		return style;
 	}
 	getEdgeStyle() {
 		const style = super.getEdgeStyle();
-		style.stroke = '#000';
+		style.stroke = "#000";
 		// style.strokeWidth = 2;
 		return style;
 	}
 }
 
 class SequenceFlowView extends PolylineEdge {
-	static extendKey = 'SequenceFlowEdge';
+	static extendKey = "SequenceFlowEdge";
 }
 
 const SequenceFlow = {
-	type: 'bpmn:sequenceFlow',
+	type: "bpmn:sequenceFlow",
 	view: SequenceFlowView,
 	model: SequenceFlowModel,
 };

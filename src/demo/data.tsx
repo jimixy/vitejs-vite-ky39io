@@ -58,8 +58,8 @@ export const statusOptions = [
 ];
 
 export const initXml = `<?xml version="1.0" encoding="UTF-8" ?>
-<bpmn:definitions id="Definitions_05n5al3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" targetNamespace="http://logic-flow.org" exporter="logicflow" exporterVersion="1.2.0">	
-  <bpmn:process isExecutable="true" id="Process_17cd71c">	
+<bpmn:definitions id="Definitions_0nbs7de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" targetNamespace="http://logic-flow.org" exporter="logicflow" exporterVersion="1.2.0">	
+  <bpmn:process isExecutable="true" id="Process_2iilb0h">	
     <bpmn:startEvent id="Event_3n1c79t" name="开始">	
       <bpmn:outgoing>Flow_08741tv</bpmn:outgoing>	
     </bpmn:startEvent>	
@@ -75,8 +75,8 @@ export const initXml = `<?xml version="1.0" encoding="UTF-8" ?>
       </bpmn:parallelGateway>	
     <bpmn:xorGateway id="Gateway_2c3huvv" name="互斥网关">	
       <bpmn:incoming>Flow_0641r5c</bpmn:incoming>	
-        <bpmn:outgoing>Flow_39h9nf1</bpmn:outgoing>	
-        <bpmn:outgoing>Flow_1iam8ab</bpmn:outgoing>	
+        <bpmn:outgoing>Flow_1g2hmgt</bpmn:outgoing>	
+        <bpmn:outgoing>Flow_1rcdh42</bpmn:outgoing>	
     </bpmn:xorGateway>	
       <bpmn:userTask id="Activity_2qqf792" name="审核员1" role="cs">	
         <bpmn:incoming>Flow_3uks5jd</bpmn:incoming>	
@@ -99,13 +99,13 @@ export const initXml = `<?xml version="1.0" encoding="UTF-8" ?>
       <bpmn:userTask id="Activity_2maunbq" name="管理员1">	
           <role>admin</role>	
           <role>superAdmin</role>	
-        <bpmn:incoming>Flow_39h9nf1</bpmn:incoming>	
+        <bpmn:incoming>Flow_1g2hmgt</bpmn:incoming>	
         <bpmn:outgoing>Flow_03nv0st</bpmn:outgoing>	
       </bpmn:userTask>	
       <bpmn:userTask id="Activity_31pb5h4" name="管理员2">	
           <role>admin</role>	
           <role>superAdmin</role>	
-        <bpmn:incoming>Flow_1iam8ab</bpmn:incoming>	
+        <bpmn:incoming>Flow_1rcdh42</bpmn:incoming>	
         <bpmn:outgoing>Flow_0lb2fe4</bpmn:outgoing>	
       </bpmn:userTask>	
     <bpmn:endEvent id="Event_2jv3bfq" name="结束">	
@@ -126,11 +126,11 @@ export const initXml = `<?xml version="1.0" encoding="UTF-8" ?>
       <bpmn:sequenceFlow id="Flow_3dsi7hd" sourceRef="Activity_2qqf792" targetRef="Event_2jv3bfq" name="不通过" />	
       <bpmn:sequenceFlow id="Flow_037juhv" sourceRef="Activity_2qqf792" targetRef="Gateway_0mju0qf" name="通过" />	
       <bpmn:sequenceFlow id="Flow_0l3imfn" sourceRef="Activity_1a0hqeh" targetRef="Gateway_0mju0qf" name="通过" />	
-      <bpmn:sequenceFlow id="Flow_39h9nf1" sourceRef="Gateway_2c3huvv" targetRef="Activity_2maunbq" />	
-      <bpmn:sequenceFlow id="Flow_1iam8ab" sourceRef="Gateway_2c3huvv" targetRef="Activity_31pb5h4" />	
+      <bpmn:sequenceFlow id="Flow_1g2hmgt" sourceRef="Gateway_2c3huvv" targetRef="Activity_2maunbq" />	
+      <bpmn:sequenceFlow id="Flow_1rcdh42" sourceRef="Gateway_2c3huvv" targetRef="Activity_31pb5h4" />	
   </bpmn:process>	
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">	
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_17cd71c">	
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_2iilb0h">	
         <bpmndi:BPMNEdge id="Flow_08741tv_di" bpmnElement="Flow_08741tv">	
             <di:waypoint x="408" y="280" />	
             <di:waypoint x="438" y="280" />	
@@ -222,21 +222,19 @@ export const initXml = `<?xml version="1.0" encoding="UTF-8" ?>
             <dc:Bounds x="760" y="341.5" width="20" height="14" />	
           </bpmndi:BPMNLabel>	
         </bpmndi:BPMNEdge>	
-        <bpmndi:BPMNEdge id="Flow_39h9nf1_di" bpmnElement="Flow_39h9nf1">	
+        <bpmndi:BPMNEdge id="Flow_1g2hmgt_di" bpmnElement="Flow_1g2hmgt">	
             <di:waypoint x="1135" y="280" />	
-            <di:waypoint x="1140" y="280" />	
-            <di:waypoint x="1140" y="245" />	
-            <di:waypoint x="1139" y="245" />	
-            <di:waypoint x="1139" y="210" />	
-            <di:waypoint x="1160" y="210" />	
+            <di:waypoint x="1165" y="280" />	
+            <di:waypoint x="1210" y="280" />	
+            <di:waypoint x="1210" y="280" />	
+            <di:waypoint x="1210" y="250" />	
         </bpmndi:BPMNEdge>	
-        <bpmndi:BPMNEdge id="Flow_1iam8ab_di" bpmnElement="Flow_1iam8ab">	
+        <bpmndi:BPMNEdge id="Flow_1rcdh42_di" bpmnElement="Flow_1rcdh42">	
             <di:waypoint x="1135" y="280" />	
-            <di:waypoint x="1139" y="280" />	
-            <di:waypoint x="1139" y="315" />	
-            <di:waypoint x="1138" y="315" />	
-            <di:waypoint x="1138" y="350" />	
-            <di:waypoint x="1160" y="350" />	
+            <di:waypoint x="1165" y="280" />	
+            <di:waypoint x="1210" y="280" />	
+            <di:waypoint x="1210" y="280" />	
+            <di:waypoint x="1210" y="310" />	
         </bpmndi:BPMNEdge>	
         <bpmndi:BPMNShape id="Event_3n1c79t_di" bpmnElement="Event_3n1c79t">	
           <dc:Bounds x="370" y="260" width="40" height="40" />	
