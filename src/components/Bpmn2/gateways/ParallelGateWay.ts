@@ -69,7 +69,7 @@ class ParallelGatewayView extends PolygonNode {
 }
 
 const ParallelGateway = {
-	type: "bpmn:parallelGateway",
+	type: "parallelGateway",
 	view: ParallelGatewayView,
 	model: ParallelGatewayModel,
 };

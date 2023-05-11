@@ -125,7 +125,7 @@ class UserTaskView extends RectNode {
 }
 
 const UserTask = {
-	type: "bpmn:userTask",
+	type: "userTask",
 	view: UserTaskView,
 	model: UserTaskModel,
 };

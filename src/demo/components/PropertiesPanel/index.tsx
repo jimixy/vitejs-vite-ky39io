@@ -10,7 +10,7 @@ const nodeOptions = [
 		label: node.text,
 		value: node.type,
 	})),
-	{ label: "线条", value: "bpmn:sequenceFlow" },
+	{ label: "线条", value: "sequenceFlow" },
 ];
 /**
  * 属性查看面板

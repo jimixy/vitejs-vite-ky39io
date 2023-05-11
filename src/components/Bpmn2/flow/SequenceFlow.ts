@@ -33,7 +33,7 @@ class SequenceFlowView extends PolylineEdge {
 }
 
 const SequenceFlow = {
-	type: "bpmn:sequenceFlow",
+	type: "sequenceFlow",
 	view: SequenceFlowView,
 	model: SequenceFlowModel,
 };

@@ -72,7 +72,7 @@ class XorGatewayView extends PolygonNode {
 }
 
 const XorGateway = {
-	type: "bpmn:xorGateway",
+	type: "xorGateway",
 	view: XorGatewayView,
 	model: XorGatewayModel,
 };

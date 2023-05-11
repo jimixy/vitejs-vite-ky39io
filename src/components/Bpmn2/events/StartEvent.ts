@@ -1,16 +1,16 @@
-import { CircleNode, CircleNodeModel } from '@logicflow/core';
-import { getBpmnId } from '../getBpmnId';
+import { CircleNode, CircleNodeModel } from "@logicflow/core";
+import { getBpmnId } from "../getBpmnId";
 
 class StartEventModel extends CircleNodeModel {
-	static extendKey = 'StartEventModel';
+	static extendKey = "StartEventModel";
 	constructor(data, graphModel) {
 		if (!data.id) {
 			data.id = `Event_${getBpmnId()}`;
 		}
 		if (!data.text) {
-			data.text = '';
+			data.text = "";
 		}
-		if (data.text && typeof data.text === 'string') {
+		if (data.text && typeof data.text === "string") {
 			data.text = {
 				value: data.text,
 				x: data.x,
@@ -26,14 +26,14 @@ class StartEventModel extends CircleNodeModel {
 	}
 	getNodeStyle() {
 		const style = super.getNodeStyle();
-		style.stroke = '#ACCFFF';
-		style.fill = '#ACCFFF';
+		style.stroke = "#ACCFFF";
+		style.fill = "#ACCFFF";
 		return style;
 	}
 	getConnectedTargetRules() {
 		const rules = super.getConnectedTargetRules();
 		const notAsTarget = {
-			message: '起始节点不能作为边的终点',
+			message: "起始节点不能作为边的终点",
 			validate: () => false,
 		};
 		rules.push(notAsTarget);
@@ -42,11 +42,11 @@ class StartEventModel extends CircleNodeModel {
 }
 
 class StartEventView extends CircleNode {
-	static extendKey = 'StartEventNode';
+	static extendKey = "StartEventNode";
 }
 
 const StartEvent = {
-	type: 'bpmn:startEvent',
+	type: "startEvent",
 	view: StartEventView,
 	model: StartEventModel,
 };

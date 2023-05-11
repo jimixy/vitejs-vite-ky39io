@@ -1,6 +1,6 @@
-import { getBpmnId } from './bpmnIds';
-import { lfJson2Xml } from './json2xml';
-import { lfXml2Json } from './xml2json';
+import { getBpmnId } from "./bpmnIds";
+import { lfJson2Xml } from "./json2xml";
+import { lfXml2Json } from "./xml2json";
 
 import {
 	ExclusiveGatewayConfig,
@@ -8,7 +8,7 @@ import {
 	EndEventConfig,
 	ServiceTaskConfig,
 	UserTaskConfig,
-} from '../Bpmn2/constant';
+} from "../Bpmn2/constant";
 
 type NodeConfig = {
 	id: string;
@@ -51,21 +51,21 @@ type EdgeConfig = {
 };
 
 enum BpmnElements {
-	START = 'bpmn:startEvent',
-	END = 'bpmn:endEvent',
-	GATEWAY = 'bpmn:exclusiveGateway',
-	USER = 'bpmn:userTask',
-	SYSTEM = 'bpmn:serviceTask',
-	FLOW = 'bpmn:sequenceFlow',
+	START = "startEvent",
+	END = "endEvent",
+	GATEWAY = "exclusiveGateway",
+	USER = "userTask",
+	SYSTEM = "serviceTask",
+	FLOW = "sequenceFlow",
 }
 
 const defaultAttrs = [
-	'-name',
-	'-id',
-	'bpmn:incoming',
-	'bpmn:outgoing',
-	'-sourceRef',
-	'-targetRef',
+	"-name",
+	"-id",
+	"incoming",
+	"outgoing",
+	"-sourceRef",
+	"-targetRef",
 ];
 
 /**
@@ -78,18 +78,18 @@ const defaultAttrs = [
 
 function toXmlJson(json: string | any[] | Object) {
 	const xmlJson = {};
-	if (typeof json === 'string') {
+	if (typeof json === "string") {
 		return json;
 	}
 	if (Array.isArray(json)) {
 		return json.map((j) => toXmlJson(j));
 	}
 	Object.entries(json).forEach(([key, value]) => {
-		if (typeof value !== 'object') {
+		if (typeof value !== "object") {
 			// node type reference https://www.w3schools.com/xml/dom_nodetype.asp
 			if (
-				key.indexOf('-') === 0 ||
-				['#text', '#cdata-section', '#comment'].includes(key)
+				key.indexOf("-") === 0 ||
+				["#text", "#cdata-section", "#comment"].includes(key)
 			) {
 				xmlJson[key] = value;
 			} else {
@@ -107,17 +107,17 @@ function toXmlJson(json: string | any[] | Object) {
  */
 function toNormalJson(xmlJson: Object) {
 	const json = {};
-	if (typeof xmlJson === 'string') {
+	if (typeof xmlJson === "string") {
 		return xmlJson;
 	}
 	Object.entries(xmlJson).forEach(([key, value]) => {
-		if (typeof value === 'string') {
-			if (key.indexOf('-') === 0) {
+		if (typeof value === "string") {
+			if (key.indexOf("-") === 0) {
 				json[key.substring(1)] = value;
 			} else {
 				json[key] = value;
 			}
-		} else if (Object.prototype.toString.call(value) === '[object Object]') {
+		} else if (Object.prototype.toString.call(value) === "[object Object]") {
 			json[key] = toNormalJson(value);
 		} else if (Array.isArray(value)) {
 			// contain the process of array
@@ -141,10 +141,10 @@ function convertLf2ProcessData(bpmnProcessData, data) {
 	const nodeMap = new Map();
 	data.nodes.forEach((node: NodeConfig) => {
 		const processNode = {
-			'-id': node.id, // 如果是xml的属性，json中属性用'-'开头
+			"-id": node.id, // 如果是xml的属性，json中属性用'-'开头
 		};
 		if (node.text?.value) {
-			processNode['-name'] = node.text.value;
+			processNode["-name"] = node.text.value;
 		}
 		if (node.properties) {
 			const properties = toXmlJson(node.properties);
@@ -164,20 +164,20 @@ function convertLf2ProcessData(bpmnProcessData, data) {
 	});
 	const sequenceFlow = data.edges.map((edge: EdgeConfig) => {
 		const targetNode = nodeMap.get(edge.targetNodeId);
-		if (!targetNode['bpmn:incoming']) {
-			targetNode['bpmn:incoming'] = edge.id;
-		} else if (Array.isArray(targetNode['bpmn:incoming'])) {
-			targetNode['bpmn:incoming'].push(edge.id);
+		if (!targetNode["incoming"]) {
+			targetNode["incoming"] = edge.id;
+		} else if (Array.isArray(targetNode["incoming"])) {
+			targetNode["incoming"].push(edge.id);
 		} else {
-			targetNode['bpmn:incoming'] = [targetNode['bpmn:incoming'], edge.id];
+			targetNode["incoming"] = [targetNode["incoming"], edge.id];
 		}
 		const edgeConfig = {
-			'-id': edge.id,
-			'-sourceRef': edge.sourceNodeId,
-			'-targetRef': edge.targetNodeId,
+			"-id": edge.id,
+			"-sourceRef": edge.sourceNodeId,
+			"-targetRef": edge.targetNodeId,
 		};
 		if (edge.text?.value) {
-			edgeConfig['-name'] = edge.text?.value;
+			edgeConfig["-name"] = edge.text?.value;
 		}
 		if (edge.properties) {
 			const properties = toXmlJson(edge.properties);
@@ -189,13 +189,13 @@ function convertLf2ProcessData(bpmnProcessData, data) {
 	// 需要保证incoming在outgoing之前
 	data.edges.forEach((edge: EdgeConfig) => {
 		const sourceNode = nodeMap.get(edge.sourceNodeId);
-		if (!sourceNode['bpmn:outgoing']) {
-			sourceNode['bpmn:outgoing'] = edge.id;
-		} else if (Array.isArray(sourceNode['bpmn:outgoing'])) {
-			sourceNode['bpmn:outgoing'].push(edge.id);
+		if (!sourceNode["outgoing"]) {
+			sourceNode["outgoing"] = edge.id;
+		} else if (Array.isArray(sourceNode["outgoing"])) {
+			sourceNode["outgoing"].push(edge.id);
 		} else {
 			// 字符串转数组
-			sourceNode['bpmn:outgoing'] = [sourceNode['bpmn:outgoing'], edge.id];
+			sourceNode["outgoing"] = [sourceNode["outgoing"], edge.id];
 		}
 	});
 	bpmnProcessData[BpmnElements.FLOW] = sequenceFlow;
@@ -205,30 +205,30 @@ function convertLf2ProcessData(bpmnProcessData, data) {
  * adapterOut 设置bpmn diagram信息
  */
 function convertLf2DiagramData(bpmnDiagramData, data) {
-	bpmnDiagramData['bpmndi:BPMNEdge'] = data.edges.map((edge) => {
+	bpmnDiagramData["bpmndi:BPMNEdge"] = data.edges.map((edge) => {
 		const edgeId = edge.id;
 		const pointsList = edge.pointsList.map(({ x, y }) => ({
-			'-x': x,
-			'-y': y,
+			"-x": x,
+			"-y": y,
 		}));
 		const diagramData = {
-			'-id': `${edgeId}_di`,
-			'-bpmnElement': edgeId,
-			'di:waypoint': pointsList,
+			"-id": `${edgeId}_di`,
+			"-bpmnElement": edgeId,
+			"di:waypoint": pointsList,
 		};
 		if (edge.text?.value) {
-			diagramData['bpmndi:BPMNLabel'] = {
-				'dc:Bounds': {
-					'-x': edge.text.x - (edge.text.value.length * 10) / 2,
-					'-y': edge.text.y - 7,
-					'-width': edge.text.value.length * 10,
-					'-height': 14,
+			diagramData["bpmndi:BPMNLabel"] = {
+				"dc:Bounds": {
+					"-x": edge.text.x - (edge.text.value.length * 10) / 2,
+					"-y": edge.text.y - 7,
+					"-width": edge.text.value.length * 10,
+					"-height": 14,
 				},
 			};
 		}
 		return diagramData;
 	});
-	bpmnDiagramData['bpmndi:BPMNShape'] = data.nodes.map((node) => {
+	bpmnDiagramData["bpmndi:BPMNShape"] = data.nodes.map((node) => {
 		const nodeId = node.id;
 		let width = 100;
 		let height = 80;
@@ -242,22 +242,22 @@ function convertLf2DiagramData(bpmnDiagramData, data) {
 		x -= width / 2;
 		y -= height / 2;
 		const diagramData = {
-			'-id': `${nodeId}_di`,
-			'-bpmnElement': nodeId,
-			'dc:Bounds': {
-				'-x': x,
-				'-y': y,
-				'-width': width,
-				'-height': height,
+			"-id": `${nodeId}_di`,
+			"-bpmnElement": nodeId,
+			"dc:Bounds": {
+				"-x": x,
+				"-y": y,
+				"-width": width,
+				"-height": height,
 			},
 		};
 		if (node.text?.value) {
-			diagramData['bpmndi:BPMNLabel'] = {
-				'dc:Bounds': {
-					'-x': node.text.x - (node.text.value.length * 10) / 2,
-					'-y': node.text.y - 7,
-					'-width': node.text.value.length * 10,
-					'-height': 14,
+			diagramData["bpmndi:BPMNLabel"] = {
+				"dc:Bounds": {
+					"-x": node.text.x - (node.text.value.length * 10) / 2,
+					"-y": node.text.y - 7,
+					"-width": node.text.value.length * 10,
+					"-height": 14,
 				},
 			};
 		}
@@ -271,22 +271,22 @@ function convertLf2DiagramData(bpmnDiagramData, data) {
 function convertBpmn2LfData(bpmnData) {
 	let nodes = [];
 	let edges = [];
-	const definitions = bpmnData['bpmn:definitions'];
+	const definitions = bpmnData["definitions"];
 	if (definitions) {
-		const process = definitions['bpmn:process'];
+		const process = definitions["process"];
 		Object.keys(process).forEach((key) => {
-			if (key.indexOf('bpmn:') === 0) {
-				const value = process[key];
+			const value = process[key];
+			if (typeof value === "object") {
 				if (key === BpmnElements.FLOW) {
 					const bpmnEdges =
-						definitions['bpmndi:BPMNDiagram']['bpmndi:BPMNPlane'][
-							'bpmndi:BPMNEdge'
+						definitions["bpmndi:BPMNDiagram"]["bpmndi:BPMNPlane"][
+							"bpmndi:BPMNEdge"
 						];
 					edges = getLfEdges(value, bpmnEdges);
 				} else {
 					const shapes =
-						definitions['bpmndi:BPMNDiagram']['bpmndi:BPMNPlane'][
-							'bpmndi:BPMNShape'
+						definitions["bpmndi:BPMNDiagram"]["bpmndi:BPMNPlane"][
+							"bpmndi:BPMNShape"
 						];
 					nodes = nodes.concat(getLfNodes(value, shapes, key));
 				}
@@ -307,7 +307,7 @@ function getLfNodes(value, shapes, key) {
 			let shapeValue;
 			if (Array.isArray(shapes)) {
 				shapeValue = shapes.find(
-					(shape) => shape['-bpmnElement'] === val['-id']
+					(shape) => shape["-bpmnElement"] === val["-id"]
 				);
 			} else {
 				shapeValue = shapes;
@@ -319,7 +319,7 @@ function getLfNodes(value, shapes, key) {
 		let shapeValue;
 		if (Array.isArray(shapes)) {
 			shapeValue = shapes.find(
-				(shape) => shape['-bpmnElement'] === value['-id']
+				(shape) => shape["-bpmnElement"] === value["-id"]
 			);
 		} else {
 			shapeValue = shapes;
@@ -331,9 +331,9 @@ function getLfNodes(value, shapes, key) {
 }
 
 function getNodeConfig(shapeValue, type, processValue) {
-	let x = Number(shapeValue['dc:Bounds']['-x']);
-	let y = Number(shapeValue['dc:Bounds']['-y']);
-	const name = processValue['-name'];
+	let x = Number(shapeValue["dc:Bounds"]["-x"]);
+	let y = Number(shapeValue["dc:Bounds"]["-y"]);
+	const name = processValue["-name"];
 	const shapeConfig = BpmnAdapter.shapeConfigMap.get(type);
 	if (shapeConfig) {
 		x += shapeConfig.width / 2;
@@ -359,16 +359,16 @@ function getNodeConfig(shapeValue, type, processValue) {
 		};
 		// 自定义文本位置
 		if (
-			shapeValue['bpmndi:BPMNLabel'] &&
-			shapeValue['bpmndi:BPMNLabel']['dc:Bounds']
+			shapeValue["bpmndi:BPMNLabel"] &&
+			shapeValue["bpmndi:BPMNLabel"]["dc:Bounds"]
 		) {
-			const textBounds = shapeValue['bpmndi:BPMNLabel']['dc:Bounds'];
-			text.x = Number(textBounds['-x']) + Number(textBounds['-width']) / 2;
-			text.y = Number(textBounds['-y']) + Number(textBounds['-height']) / 2;
+			const textBounds = shapeValue["bpmndi:BPMNLabel"]["dc:Bounds"];
+			text.x = Number(textBounds["-x"]) + Number(textBounds["-width"]) / 2;
+			text.y = Number(textBounds["-y"]) + Number(textBounds["-height"]) / 2;
 		}
 	}
 	const nodeConfig: NodeConfig = {
-		id: shapeValue['-bpmnElement'],
+		id: shapeValue["-bpmnElement"],
 		type,
 		x,
 		y,
@@ -387,7 +387,7 @@ function getLfEdges(value, bpmnEdges) {
 			let edgeValue;
 			if (Array.isArray(bpmnEdges)) {
 				edgeValue = bpmnEdges.find(
-					(edge) => edge['-bpmnElement'] === val['-id']
+					(edge) => edge["-bpmnElement"] === val["-id"]
 				);
 			} else {
 				edgeValue = bpmnEdges;
@@ -398,7 +398,7 @@ function getLfEdges(value, bpmnEdges) {
 		let edgeValue;
 		if (Array.isArray(bpmnEdges)) {
 			edgeValue = bpmnEdges.find(
-				(edge) => edge['-bpmnElement'] === value['-id']
+				(edge) => edge["-bpmnElement"] === value["-id"]
 			);
 		} else {
 			edgeValue = bpmnEdges;
@@ -410,12 +410,12 @@ function getLfEdges(value, bpmnEdges) {
 
 function getEdgeConfig(edgeValue, processValue) {
 	let text;
-	const textVal = processValue['-name'];
+	const textVal = processValue["-name"];
 	if (textVal) {
-		const textBounds = edgeValue['bpmndi:BPMNLabel']['dc:Bounds'];
+		const textBounds = edgeValue["bpmndi:BPMNLabel"]["dc:Bounds"];
 		// 如果边文本换行，则其偏移量应该是最长一行的位置
 		let textLength = 0;
-		textVal.split('\n').forEach((textSpan) => {
+		textVal.split("\n").forEach((textSpan) => {
 			if (textLength < textSpan.length) {
 				textLength = textSpan.length;
 			}
@@ -423,8 +423,8 @@ function getEdgeConfig(edgeValue, processValue) {
 
 		text = {
 			value: textVal,
-			x: Number(textBounds['-x']) + (textLength * 10) / 2,
-			y: Number(textBounds['-y']) + 7,
+			x: Number(textBounds["-x"]) + (textLength * 10) / 2,
+			y: Number(textBounds["-y"]) + 7,
 		};
 	}
 	let properties;
@@ -439,14 +439,14 @@ function getEdgeConfig(edgeValue, processValue) {
 		properties = toNormalJson(properties);
 	}
 	const edge: EdgeConfig = {
-		id: processValue['-id'],
+		id: processValue["-id"],
 		type: BpmnElements.FLOW,
-		pointsList: edgeValue['di:waypoint'].map((point) => ({
-			x: Number(point['-x']),
-			y: Number(point['-y']),
+		pointsList: edgeValue["di:waypoint"].map((point) => ({
+			x: Number(point["-x"]),
+			y: Number(point["-y"]),
 		})),
-		sourceNodeId: processValue['-sourceRef'],
-		targetNodeId: processValue['-targetRef'],
+		sourceNodeId: processValue["-sourceRef"],
+		targetNodeId: processValue["-targetRef"],
 		properties,
 	};
 	if (text) {
@@ -456,41 +456,41 @@ function getEdgeConfig(edgeValue, processValue) {
 }
 
 class BpmnAdapter {
-	static pluginName = 'bpmn-adapter';
+	static pluginName = "bpmn-adapter";
 	static shapeConfigMap = new Map();
 	processAttributes: {
-		['-isExecutable']: string;
-		['-id']: string;
+		["-isExecutable"]: string;
+		["-id"]: string;
 	};
 	definitionAttributes: {
-		['-id']: string;
-		['-xmlns:xsi']: string;
-		['-xmlns:bpmn']: string;
-		['-xmlns:bpmndi']: string;
-		['-xmlns:dc']: string;
-		['-xmlns:di']: string;
-		['-targetNamespace']: string;
-		['-exporter']: string;
-		['-exporterVersion']: string;
+		["-id"]: string;
+		["-xmlns:xsi"]: string;
+		["-xmlns:bpmn"]: string;
+		["-xmlns:bpmndi"]: string;
+		["-xmlns:dc"]: string;
+		["-xmlns:di"]: string;
+		["-targetNamespace"]: string;
+		["-exporter"]: string;
+		["-exporterVersion"]: string;
 		[key: string]: any;
 	};
 	constructor({ lf }) {
 		lf.adapterIn = (data) => this.adapterIn(data);
 		lf.adapterOut = (data) => this.adapterOut(data);
 		this.processAttributes = {
-			'-isExecutable': 'true',
-			'-id': `Process_${getBpmnId()}`,
+			"-isExecutable": "true",
+			"-id": `Process_${getBpmnId()}`,
 		};
 		this.definitionAttributes = {
-			'-id': `Definitions_${getBpmnId()}`,
-			'-xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-			'-xmlns:bpmn': 'http://www.omg.org/spec/BPMN/20100524/MODEL',
-			'-xmlns:bpmndi': 'http://www.omg.org/spec/BPMN/20100524/DI',
-			'-xmlns:dc': 'http://www.omg.org/spec/DD/20100524/DC',
-			'-xmlns:di': 'http://www.omg.org/spec/DD/20100524/DI',
-			'-targetNamespace': 'http://logic-flow.org',
-			'-exporter': 'logicflow',
-			'-exporterVersion': '1.2.0',
+			"-id": `Definitions_${getBpmnId()}`,
+			"-xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+			"-xmlns:bpmn": "http://www.omg.org/spec/BPMN/20100524/MODEL",
+			"-xmlns:bpmndi": "http://www.omg.org/spec/BPMN/20100524/DI",
+			"-xmlns:dc": "http://www.omg.org/spec/DD/20100524/DC",
+			"-xmlns:di": "http://www.omg.org/spec/DD/20100524/DI",
+			"-targetNamespace": "http://logic-flow.org",
+			"-exporter": "logicflow",
+			"-exporterVersion": "1.2.0",
 		};
 	}
 	setCustomShape(key, val) {
@@ -500,18 +500,18 @@ class BpmnAdapter {
 		const bpmnProcessData = { ...this.processAttributes };
 		convertLf2ProcessData(bpmnProcessData, data);
 		const bpmnDiagramData = {
-			'-id': 'BPMNPlane_1',
-			'-bpmnElement': bpmnProcessData['-id'],
+			"-id": "BPMNPlane_1",
+			"-bpmnElement": bpmnProcessData["-id"],
 		};
 		convertLf2DiagramData(bpmnDiagramData, data);
 		const definitions = this.definitionAttributes;
-		definitions['bpmn:process'] = bpmnProcessData;
-		definitions['bpmndi:BPMNDiagram'] = {
-			'-id': 'BPMNDiagram_1',
-			'bpmndi:BPMNPlane': bpmnDiagramData,
+		definitions["process"] = bpmnProcessData;
+		definitions["bpmndi:BPMNDiagram"] = {
+			"-id": "BPMNDiagram_1",
+			"bpmndi:BPMNPlane": bpmnDiagramData,
 		};
 		const bpmnData = {
-			'bpmn:definitions': definitions,
+			definitions: definitions,
 		};
 		return bpmnData;
 	};
@@ -543,8 +543,18 @@ BpmnAdapter.shapeConfigMap.set(BpmnElements.USER, {
 	height: UserTaskConfig.height,
 });
 
+BpmnAdapter.shapeConfigMap.set("xorGateway", {
+	width: 100,
+	height: 80,
+});
+
+BpmnAdapter.shapeConfigMap.set("parallelGateway", {
+	width: 100,
+	height: 80,
+});
+
 class BpmnXmlAdapter extends BpmnAdapter {
-	static pluginName = 'bpmnXmlAdapter';
+	static pluginName = "bpmnXmlAdapter";
 	constructor(data) {
 		super(data);
 		const { lf } = data;
