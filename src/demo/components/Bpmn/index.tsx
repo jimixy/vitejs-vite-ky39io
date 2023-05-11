@@ -36,7 +36,6 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 				edgeTextDraggable: true,
 				// 节点悬浮取消虚线框，导致聚焦的节点显示不够明显清晰
 				hoverOutline: false,
-				nodeTextEdit: false,
 				keyboard: {
 					enabled: true,
 				},
@@ -61,7 +60,7 @@ const Bpmn: React.FC<{ readonly?: boolean }> = ({ readonly = false }) => {
 				// 禁用节点文本编辑，仅能通过右侧属性面板变更
 				nodeTextEdit: false,
 				// 禁用线条文本编辑，仅能通过右侧属性面板变更
-				edgeTextEdit:false
+				edgeTextEdit: false,
 			});
 			// 节点点击
 			initLf.on("element:click", (e) => {
